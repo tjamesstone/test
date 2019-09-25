@@ -4,6 +4,7 @@
   background-color: #f2f2f2;
   min-width: 100%;
   min-height: 100vh;
+  margin: 0 auto;
 
 }
 .form_input_box {
@@ -70,6 +71,14 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-top: -20px;
+  margin-left: -100px;
+}
+.authbuttons{
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .authbox{
   background-image: -webkit-linear-gradient(353deg,#ff7a6e,#ffd670);
