@@ -9,10 +9,10 @@ import Post from './Components/Post/Post'
 function App() {
   return (
     <div className="App">
-      <Auth />
-      <Dashboard />
+      {/* <Auth /> */}
+      {/* <Dashboard /> */}
       <Form />
-      <Post />
+      {/* <Post /> */}
       <Nav />
     </div>
   );
