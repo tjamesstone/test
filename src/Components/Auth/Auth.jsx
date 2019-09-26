@@ -41,7 +41,7 @@ render(){
                         onChange={this.handleChange}
                         value={this.state.password}
                         type="text"/>
-                    
+                  </div>  
                 <div className="authbuttons">
                         <button className="login">
                             Login
@@ -50,7 +50,7 @@ render(){
                             Register
                         </button>
                     </div>
-                </div>
+                
             </div>
             
         </div>

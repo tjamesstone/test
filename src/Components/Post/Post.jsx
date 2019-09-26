@@ -6,7 +6,9 @@ export default class Post extends Component{
 render(){
     return(
         <div className="post">
-            Post
+            <div className="content_box">
+                Post
+            </div>
         </div>
     )
 }

@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+
+
 .App {
   /* font-family: Open Sans,Courier New,Courier,monospace; */
   background-color: #f2f2f2;
   min-width: 100%;
   min-height: 100vh;
   margin: 0 auto;
-
+  display: flex;
+  justify-content: center;
 }
 .form_input_box {
   width: 90%;
@@ -63,6 +67,45 @@ textarea {
   width: 90%;
   margin: 3px auto 10px;
 }
+.searchimg{
+  background: #FF9770;
+  height: 28px;
+  padding: 3px;
+}
+.myposts{
+  display: flex;
+  align-items: center;
+}
+
+.searchinput{
+  height: 28px;
+  width: 65%;
+}
+.searchbutton{
+  height: 34px;
+}
+p {
+  width: 5rem;
+}
+.searchbar{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 90%;
+  height: 70px;
+
+}
+.dash_filter{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  width: 100%;
+  height: 50px;
+
+  
+  
+}
 .auth{
   padding-left: 100px;
   background-image: -webkit-linear-gradient(351deg,#ff70a6,#ff9770 40%,#ffd670 73%,#e9ff70);
@@ -96,6 +139,7 @@ textarea {
 .auth_title {
   font-size: 80px;
   font-weight: 700;
+  margin: 0 auto;
 }
 
 .nav_image {
@@ -130,6 +174,14 @@ img > .nav_links {
 }
 .dashboard{
   padding-left: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60%;
+}
+.dash_posts_container{
+  width: 100%;
+  min-height: 200px;
 }
 .nav_profile_container {
   height: 100px;
@@ -144,6 +196,7 @@ img > .nav_links {
 .form {
   width: 70%;
   margin: 0 auto;
+  margin-top: 20px;
   font-size: 16px;
   font-weight: 700;
   margin-top: -20px;
