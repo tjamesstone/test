@@ -4,8 +4,15 @@ export default class Auth extends Component{
 constructor(props){
     super(props)
     this.state = {
-        
+        username: '',
+        password: ''
     }
+}
+
+handleChange = (e) => {
+this.setState({
+    [e.target.name] : e.target.value
+})
 }
 
 render(){
@@ -19,11 +26,21 @@ render(){
                 
                 <div className="user">
                         Username:
-                        <input type="text"/>
+                        <input 
+                        name='username'
+                        placeholder='Username'
+                        onChange={this.handleChange}
+                        value={this.state.username}
+                        type="text"/>
                 </div>
                 <div className="pass">
                         Password:
-                        <input type="text"/>
+                        <input 
+                        name='password'
+                        placeholder='Password'
+                        onChange={this.handleChange}
+                        value={this.state.password}
+                        type="text"/>
                     
                 <div className="authbuttons">
                         <button className="login">
