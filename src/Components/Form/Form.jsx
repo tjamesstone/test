@@ -6,7 +6,7 @@ export default class Form extends Component{
 render(){
     return(
         <div className="form">
-            <div className="content_box">
+            <div className="content_box form_box">
                 
                 <h2 className="title">New Post</h2>
               <div className="form_input_box">

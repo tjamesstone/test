@@ -16,6 +16,8 @@ app.use(
     saveUninitialized: false
 }))
 //endpoints
+app.post('/auth/register', ctrl.register)
+app.post('/auth/login', ctrl.login)
 
 //massive + app listening
 
