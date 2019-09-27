@@ -20,6 +20,8 @@ app.post('/auth/register', ctrl.register)
 app.post('/auth/login', ctrl.login)
 app.delete('/auth/logout', ctrl.logout)
 
+app.get('/api/posts', ctrl.getAllPosts)
+
 //massive + app listening
 
 massive(CONNECTION_STRING).then(db => {

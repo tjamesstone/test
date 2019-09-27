@@ -11,7 +11,9 @@ function Nav(props){
     return(
         <div className="nav">
             <div className="nav_profile_container">
-            <img src={props.profile_pic} alt="profilepic"/>
+            <img 
+            className='theprofilepic'
+            src={props.profile_pic} alt="profilepic"/>
                 <p>{props.username}</p>
             </div>
                 

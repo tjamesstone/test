@@ -1,9 +1,19 @@
 import React, {Component} from 'react'
+import Post from '../Post/Post'
 
 export default class Dashboard extends Component{
-
+    constructor(props){
+        super(props) 
+        this.state = {
+            search: '',
+            myPosts: true,
+            posts: []
+        }
+    }
+        
 
 render(){
+    const {posts} = this.state
     return(
         <div className="dashboard">
             <div className="content_box dash_filter">
@@ -25,7 +35,17 @@ render(){
                 </div>
             </div>
             <div className="content_box dash_posts_container">
-                
+                {posts.map(post => (
+                    <Post 
+                    key={post.id}
+                    id={post.id}
+                    title={post.title}
+                    img={post.img}
+                    content={post.content}
+                    author_id={post.author_id}
+                    />
+                ))}
+               
             </div>
         </div>
     )

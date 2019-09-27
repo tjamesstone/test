@@ -12,7 +12,7 @@ constructor(props){
         username: '',
         password: ''
     }
-    this.login = this.login.bind(this)
+   
 }
 
 handleChange = (e, key) => {
@@ -35,10 +35,11 @@ this.setState({
 
 login = async () => {
     const { username, password } = this.state;
-    const res = await axios.post('/auth/login', { username, password });
+    const res = await axios.post('/auth/login', { username, password })
       if (res.data) {
-        this.props.history.push("/dashboard");
-        this.props.updateUser(res.data);
+        this.props.history.push("/dashboard")
+        console.log(res.data)
+        this.props.updateUser(res.data.user)
       }
       
     
