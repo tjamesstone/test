@@ -1,7 +1,8 @@
 //INITIAL STATE
 const initialState = {
-    loggedIn: false,
-    user: null
+    username: '',
+    id: 0,
+    profile_pic: ''
 }
 
 
@@ -19,9 +20,12 @@ export const updateUser = (userObj) => {
 
 //REDUCER FUNC
 const reducer = (state = initialState, action) => {
-    switch(action.type) {
+    switch (action.type) {
         case UPDATE_USER:
-            return {...state, user: action.payload}
+            const {username, id, profile_pic} = action.payload
+            return {
+                ...state, username, id, profile_pic
+            }
         default: return state
     }
 }

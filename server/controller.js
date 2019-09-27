@@ -19,7 +19,7 @@ module.exports = {
         const newUser = register[0]
         // console.log(newUser)
         req.session.user = newUser
-
+        // console.log(newUser)
         res.status(200).send(newUser)
     },
     login: async (req, res) => {

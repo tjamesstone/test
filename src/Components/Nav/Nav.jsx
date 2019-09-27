@@ -1,17 +1,18 @@
-import React, {Component} from 'react'
+import React from 'react'
 import {Link} from 'react-router-dom'
+import {connect} from 'react-redux'
 
 
-export default class Nav extends Component{
+function Nav(props){
 
 
-render(){
+
     
     return(
         <div className="nav">
             <div className="nav_profile_container">
-            <img src="" alt=""/>
-                <p>username</p>
+            <img src={props.profile_pic} alt="profilepic"/>
+                <p>{props.username}</p>
             </div>
                 
             <div className="nav_links">
@@ -38,5 +39,12 @@ render(){
             </Link>
         </div>
     )
+
 }
+
+function mapStateToProps(reduxState) {
+    const {username, profile_pic} = reduxState
+    return {username, profile_pic}
+    
 }
+export default connect(mapStateToProps)(Nav)

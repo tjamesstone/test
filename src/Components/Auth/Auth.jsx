@@ -24,23 +24,26 @@ this.setState({
  register = async () => {
     const { username, password } = this.state;
     const res = await axios.post('/auth/register', { username, password });
-      if (res.data.loggedIn) {
+    // console.log(res.data)
+      if (res.data) {
         this.props.history.push("/dashboard");
-        this.props.getUser(res.data.user);
+        this.props.updateUser(res.data);
       }
-    
+      
     }
   
 
 login = async () => {
-    const {password, username} = this.state
-    const res = await axios.post('/auth/login', {username, password})
-    if (res.data.user){
-        this.props.updateUser(res.data.user)
-    } 
-    swal.fire(res.data.message)
-
-}
+    const { username, password } = this.state;
+    const res = await axios.post('/auth/login', { username, password });
+      if (res.data) {
+        this.props.history.push("/dashboard");
+        this.props.updateUser(res.data);
+      }
+      
+    
+    }
+  
 
 render(){
     return(
@@ -65,7 +68,6 @@ render(){
                         name='password'
                         placeholder='Password'
                         onChange={e => this.handleChange(e, 'password')}
-                        value={this.state.password}
                         type="text"/>
                   </div>  
                 <div className="authbuttons">
@@ -91,8 +93,5 @@ render(){
 }
 
 }
-function mapStateToProps(reduxState) {
-    const {user} = reduxState
-    return {user}
-}
-export default connect(mapStateToProps, {updateUser})(Auth)
+
+export default connect(null, {updateUser})(Auth)
