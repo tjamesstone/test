@@ -21,6 +21,8 @@ app.post('/auth/login', ctrl.login)
 app.delete('/auth/logout', ctrl.logout)
 
 app.get('/api/posts', ctrl.getAllPosts)
+app.get('/api/post/:id', ctrl.getPost)
+app.post('/api/post/:id', ctrl.newPost)
 
 //massive + app listening
 

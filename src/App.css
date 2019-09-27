@@ -204,6 +204,9 @@ img > .nav_links {
   background: #fff;
 
 }
+.minipost{
+  background: pink;
+}
 .form {
   width: 70%;
   margin: 0 auto;

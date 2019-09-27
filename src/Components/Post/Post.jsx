@@ -5,7 +5,6 @@ export default class Post extends Component{
     constructor(props){
         super(props)
         this.state ={
-            id: 0,
             title: '',
             img: '',
             content: '',
@@ -14,18 +13,18 @@ export default class Post extends Component{
         }
     }
 
-    // componentDidMount(){
-    //     this.getPost()
-    // }
+    componentDidMount(){
+        this.getPost()
+    }
 
-    // getPost = async () => {
-    //     const {postId} = this.props.match.params
-    //     const postInfo = await axios.get(`/api/post/${postId}`)
-    //     const {title, img, profile_pic, username } = postInfo.data[0]
-    //     this.setState({
-    //         title, img, content: this.state.content , profile_pic, username
-    //     })
-    // }
+    getPost = async () => {
+        const {postId} = this.props.match.params
+        const postInfo = await axios.get(`/api/post/${postId}`)
+        const {title, img, profile_pic, username } = postInfo.data[0]
+        this.setState({
+            title, img, content: this.state.content , profile_pic, username
+        })
+    }
 
 render(){
     const {title, img, content, username, profile_pic} = this.props

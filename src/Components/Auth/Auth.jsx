@@ -28,6 +28,9 @@ this.setState({
       if (res.data) {
         this.props.history.push("/dashboard");
         this.props.updateUser(res.data);
+      } else {
+          swal.fire("Couldn't register, try again with a different username")
+
       }
       
     }
@@ -38,8 +41,10 @@ login = async () => {
     const res = await axios.post('/auth/login', { username, password })
       if (res.data) {
         this.props.history.push("/dashboard")
-        console.log(res.data)
+        // console.log(res.data)
         this.props.updateUser(res.data.user)
+      } else {
+          swal.fire("Couldn't log in, try again")
       }
       
     
