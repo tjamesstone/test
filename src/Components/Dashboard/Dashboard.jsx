@@ -7,10 +7,13 @@ class Dashboard extends Component{
     constructor(props){
         super(props) 
         this.state = {
-            search: '',
-            myPosts: true,
+            searchInput: '',
+            userPosts: true,
             posts: []
         }
+    }
+    componentDidMount(){
+        this.getPosts()
     }
 
     handleChange(key, e){
@@ -21,34 +24,35 @@ class Dashboard extends Component{
 
     checkBox() {
         this.setState({
-          myPosts: !this.state.myPosts
+          userPosts: !this.state.userPosts
         });
       }
     
     getPosts = async() => {
-        const {id} = this.props
-        const {myPosts, search} = this.state
-        let posts = []
-        let apiurl = `/api/posts?id=${id}`
-        if(search !== '') {
-            apiurl = apiurl +  `&search=${search}`
+        
+        const { id } = this.props;
+        const { userPosts, searchInput: search } = this.state;
+        let posts = [];
+        let queryString = `/api/posts?id=${id}`
+        if (search !== '') {
+          queryString = queryString + `&search=${search}`
         }
-        if(myPosts){
-            apiurl = apiurl + `&myPosts=true`
+        if (userPosts) {
+          queryString = queryString + `&userPosts=true`
         } else {
-            apiurl = apiurl + `&myPosts=false`
+          queryString = queryString + `&userPosts=false`
         }
         try {
-            posts = await axios.get(apiurl)
-            this.setState({ posts: posts.data})
+          posts = await axios.get(queryString);
+          this.setState({ posts: posts.data });
         } catch (e) {
-            console.log(e)
+          console.log(e);
         }
-    }
+      }
 
-    resetSearch(id){
+    resetSearch(){
+        this.setState({searchInput: ''})
         this.getPosts()
-        this.setState({search: ''})
     }
 
 render(){
@@ -58,8 +62,8 @@ render(){
             <div className="content_box dash_filter">
                 <div className="searchbar">
                     <input 
-                    onChange={e => this.handleChange('search', e)}
-                    value={this.state.search}
+                    onChange={e => this.handleChange('searchInput', e)}
+                    value={this.state.searchInput}
                     className='searchinput'
                     placeholder='Search By Title'
                     type="text"/>
@@ -72,7 +76,7 @@ render(){
                     className='searchbutton'
                     >Reset</button>
                 </div>
-                <div className="myposts">
+                <div className="userPosts">
                     <p>My Posts</p>
                     <input type="checkbox"
                     defaultChecked
@@ -84,9 +88,13 @@ render(){
                 {posts.map(post => (
                     <Link key={post.id} to={`/post/${post.id}`}>
                             <div className="content_box minipost">
-                                <h1>{post.title}</h1>
-                                <h3>by: {post.username}</h3>
-                                <img src={post.profile_pic} alt="profile"/>
+                                <h3>{post.title}</h3>
+                                <div className="leftcontainer">
+                                <h5>by: {post.username}</h5>
+                                <img 
+                                className='dashimg'
+                                src={post.profile_pic} alt="profile"/>
+                                </div>
                             </div>
                     </Link>
                 ))}

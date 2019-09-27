@@ -10,6 +10,10 @@
   display: flex;
   justify-content: center;
 }
+.userPosts{
+  display: flex;
+  align-items: center;
+}
 .form_input_box {
   width: 90%;
   height: 50px;
@@ -197,16 +201,43 @@ img > .nav_links {
   margin-bottom: 35px;
 }
 .theprofilepic {
-  height: 70px;
+  min-height: 70px;
   width: 70px;
   border-radius: 50%;
   box-shadow: 0 0 20px #333;
   background: #fff;
 
 }
+
 .minipost{
-  background: pink;
+  height: 80px;
+  display: flex;
+  color: black;
+  justify-content: space-between;
 }
+.leftcontainer{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 200px
+}
+a {
+  text-decoration: none;
+}
+.dashimg{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 0 5px #333;
+  background: #fff;
+}
+.minipost >h3 {
+  font-size: 30px;
+}
+.minipost >h6 {
+  font-size: 16px;
+}
+
 .form {
   width: 70%;
   margin: 0 auto;

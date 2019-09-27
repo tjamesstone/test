@@ -1,3 +1,3 @@
-SELECT * FROM posts p
-JOIN users u ON p.author_id = u.id 
+SELECT posts.id, title, img, content, username, profile_pic FROM posts
+JOIN users ON author_id = users.id
 WHERE posts.id = $(id);

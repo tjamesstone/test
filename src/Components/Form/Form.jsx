@@ -1,7 +1,29 @@
 import React, {Component} from 'react'
+import {connect} from 'react-redux'
+import axios from 'axios'
 
-export default class Form extends Component{
+class Form extends Component{
+    constructor(props){
+        super(props)
+        this.state = {
+            title: '',
+            img: '',
+            content: ''
+        }
+    }
 
+    handleChange(key, e){
+        this.setState({
+            [key]: e.target.value
+        })
+    }
+
+    addNew = async() => {
+        const {id} = this.props
+        const {title, img, content} = this.state
+        await axios.post(`/api/post/${id}`, {title, img, content})
+        this.props.history.push('/dashboard')
+    }
 
 render(){
     return(
@@ -11,21 +33,34 @@ render(){
                 <h2 className="title">New Post</h2>
               <div className="form_input_box">
                     <p>Title:</p>
-                    <input type="text"/>
+                    <input type="text"
+                    onChange={(e) => this.handleChange('title', e)}
+                    value={this.state.title}
+                    />
                 </div>
                     <h1> </h1>
                 <div className="form_img_prev">
-                    <img src="" alt=""/>
+                    <img 
+                    className='previmg'
+                    src={this.state.img} alt="default img"/>
                 </div>
                 <div className="form_input_box">
                     <p>Image URL:</p>
-                    <input type="text"/>
+                    <input 
+                    onChange={(e) => this.handleChange('img', e)}
+                    value={this.state.img}
+                    type="text"/>
                 </div>
                 <div className="form_text_box">
                     <p>Content:</p>
-                    <textarea name="" id="" cols="30" rows="10"></textarea>
+                    <textarea name="" 
+                    onChange={(e) => this.handleChange('content', e)}
+                    value={this.state.content}
+                    id="" cols="30" rows="10"></textarea>
                 </div>
-                <button className="form_button">
+                <button 
+                onClick={() => this.addNew()}
+                className="form_button">
                     Post
                 </button>
                 
@@ -35,3 +70,13 @@ render(){
     )
 }
 }
+function mapStateToProps(store) {  
+    return{
+        id: store.id
+    }
+
+    
+    
+}
+
+export default connect(mapStateToProps)(Form)

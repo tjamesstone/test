@@ -31,14 +31,14 @@ module.exports = {
         let foundUser = await db.get_user_by_username([username])
     
         let user = foundUser[0]
-        console.log(user)
+        // console.log(user)
 
         if (!user) {
             return res.status(401).send(`No account found with username: ${username}, please register before loggin in`)
         }
 
         let isUser = bcrypt.compareSync(password, user.password)
-        console.log(isUser)
+        // console.log(isUser)
         if (!isUser) {
             return res.status(401).send({ message: "incorrect password" })
         }
@@ -51,6 +51,7 @@ module.exports = {
     },
     getAllPosts: async (req, res) => {
         const { userPosts, id, search } = req.query;
+        // console.log(userPosts, id, search)
         const db = req.app.get("db");
         let postsArr = [];
         if (userPosts === "true" && search) {
@@ -67,18 +68,20 @@ module.exports = {
         }
         res.status(200).send(postsArr);
       },
-    getPost: async (req, res) => {
+      getPost: async (req, res) => {
         const db = req.app.get('db')
-        const post = await db.get_post({id: req.params.id})
+        const post = await db.get_post({ id: req.params.id })
         res.status(200).send(post)
-    },
-    newPost: (req, res) => {
-        const {id} = req.params
-        const {title, img, content} = req.body
+      },
+      newPost: (req, res) => {
+        const { id } = req.params
+        const { title, imgURL, content } = req.body
         const db = req.app.get('db')
-        db.new_post({title, img, content, id}).then(res => {
-            res.status(200).send(res)
-        })
-    }
+        db.new_post({ title, imgURL, content, id })
+          .then(result => {
+            res.status(200).send(result)
+          }
+          )
+      }
 
 }
