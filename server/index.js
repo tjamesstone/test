@@ -13,11 +13,12 @@ app.use(
     session({
     secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
 }))
 //endpoints
 app.post('/auth/register', ctrl.register)
 app.post('/auth/login', ctrl.login)
+app.delete('/auth/logout', ctrl.logout)
 
 //massive + app listening
 

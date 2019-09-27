@@ -1,18 +1,45 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom'
+import axios from 'axios'
+import {updateUser} from '../../ducks/reducer'
+import {connect} from 'react-redux'
+import swal from 'sweetalert2'
 
-export default class Auth extends Component{
+class Auth extends Component{
 constructor(props){
     super(props)
     this.state = {
         username: '',
         password: ''
     }
+    this.login = this.login.bind(this)
 }
 
-handleChange = (e) => {
+handleChange = (e, key) => {
 this.setState({
-    [e.target.name] : e.target.value
+    [key] : e.target.value
 })
+}
+
+ register = async () => {
+    const { username, password } = this.state;
+    const res = await axios.post('/auth/register', { username, password });
+      if (res.data.loggedIn) {
+        this.props.history.push("/dashboard");
+        this.props.getUser(res.data.user);
+      }
+    
+    }
+  
+
+login = async () => {
+    const {password, username} = this.state
+    const res = await axios.post('/auth/login', {username, password})
+    if (res.data.user){
+        this.props.updateUser(res.data.user)
+    } 
+    swal.fire(res.data.message)
+
 }
 
 render(){
@@ -29,8 +56,7 @@ render(){
                         <input 
                         name='username'
                         placeholder='Username'
-                        onChange={this.handleChange}
-                        value={this.state.username}
+                        onChange={e => this.handleChange(e, 'username')}                        value={this.state.username}
                         type="text"/>
                 </div>
                 <div className="pass">
@@ -38,15 +64,22 @@ render(){
                         <input 
                         name='password'
                         placeholder='Password'
-                        onChange={this.handleChange}
+                        onChange={e => this.handleChange(e, 'password')}
                         value={this.state.password}
                         type="text"/>
                   </div>  
                 <div className="authbuttons">
-                        <button className="login">
+                    <Link to='/dashboard'>
+                        <button 
+                        onClick={() => this.login()}
+                        className="login">
                             Login
                         </button>
-                        <button className="register">
+                    </Link>
+                        <button 
+                        onClick={() => this.register()}
+                        className="register">
+                            
                             Register
                         </button>
                     </div>
@@ -56,4 +89,10 @@ render(){
         </div>
     )
 }
+
 }
+function mapStateToProps(reduxState) {
+    const {user} = reduxState
+    return {user}
+}
+export default connect(mapStateToProps, {updateUser})(Auth)
