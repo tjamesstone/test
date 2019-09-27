@@ -10,6 +10,18 @@ export default class Dashboard extends Component{
             posts: []
         }
     }
+
+    handleChange(key, e){
+        this.setState({
+            [key]: e.target.value
+        })
+    }
+
+    checkBox() {
+        this.setState({
+          myPosts: !this.state.myPosts
+        });
+      }
         
 
 render(){

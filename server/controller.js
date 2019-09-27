@@ -50,20 +50,35 @@ module.exports = {
         res.status(200).send({message: 'Logged out', loggedIn: false})
     },
     getAllPosts: async (req, res) => {
+        const { userPosts, id, search } = req.query;
+        const db = req.app.get("db");
+        let postsArr = [];
+        if (userPosts === "true" && search) {
+          postsArr = await db.get_all_posts({ search: `%${search}%`, id: "0" });
+        }
+        if (userPosts === "false" && !search) {
+          postsArr = await db.get_all_posts({ search: "%%", id: { id } });
+        }
+        if (userPosts === "false" && search) {
+          postsArr = await db.get_all_posts({ search: `%${search}%`, id: { id } });
+        }
+        if (userPosts === "true" && !search) {
+          postsArr = await db.get_all_posts({ search: "%%", id: "0" });
+        }
+        res.status(200).send(postsArr);
+      },
+    getPost: async (req, res) => {
         const db = req.app.get('db')
-        const {userPosts, id, search} = req.query
-
-        let posts = []
-        if(userPosts === 'true' && search){
-            posts = await db.get_all_posts({search, id: 0})
-        }
-        if( userPosts === 'false' && !search){
-            posts = await db.get_all_posts({ search, id: { id } });
-
-        }
-        if(userPosts === 'false' && search) {
-            posts = await db.get_all_posts({search, })
-        }
-
+        const post = await db.get_post({id: req.params.id})
+        res.status(200).send(post)
+    },
+    newPost: (req, res) => {
+        const {id} = req.params
+        const {title, img, content} = req.body
+        const db = req.app.get('db')
+        db.new_post({title, img, content, id}).then(res => {
+            res.status(200).send(res)
+        })
     }
+
 }
