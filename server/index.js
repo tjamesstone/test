@@ -1,32 +1,29 @@
 require('dotenv').config()
 const express = require('express')
-const session = require('express-session')
-const ctrl = require('./controller')
-const massive = require('massive')
-const middleware = require('./middlewares')
-let{SERVER_PORT, SESSION_SECRET, CONNECTION_STRING} = process.env
-
 const app = express()
+const ctrl = require('./controller')
+const {SERVER_PORT, CONNECTION_STRING, SESSION_SECRET} = process.env
+const massive = require('massive')
+const session = require('express-session')
 
-//Middleware
 app.use(express.json())
-app.use(
-    session({
-    secret: SESSION_SECRET,
+app.use(session({
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false,
+    secret: SESSION_SECRET
 }))
-// app.use(middleware.checkuser)
-app.use(express.static(`${__dirname}/../build`))
-//endpoints
+
 app.post('/auth/register', ctrl.register)
 app.post('/auth/login', ctrl.login)
-app.delete('/auth/logout', ctrl.logout)
+app.post('/auth/logout', ctrl.logout)
 
-app.get('/api/posts', ctrl.getAllPosts)
-app.get('/api/post/:id', ctrl.getPost)
-app.post('/api/post/:id', ctrl.newPost)
+// app.get('/api/posts/:userid', ctrl.getPosts)
+app.get('/api/posts/', ctrl.getPosts)
+app.get('/api/post/:postid', ctrl.getOnePost)
+// app.post('/api/post/new/:userid', ctrl.addPost)
+app.post('/api/post/new/', ctrl.addPost)
 
+app.get('/api/auth/me', ctrl.findUser)
 
 
 //massive + app listening

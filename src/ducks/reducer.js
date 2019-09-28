@@ -1,32 +1,34 @@
-//INITIAL STATE
 const initialState = {
     username: '',
-    id: 0,
     profile_pic: ''
 }
 
+const HANDLE_USER = "HANDLE_USER"
+const CLEAR_STATE = "CLEAR_STATE"
 
-//ACTION CONTS
-const UPDATE_USER = 'UPDATE_USER'
-
-//ACTION BUILDERS
-export const updateUser = (userObj) => {
+export const handleUser = (username, profile_pic) => {
+    let user = {username, profile_pic}
     return {
-        type: UPDATE_USER,
-        payload: userObj
+        type: HANDLE_USER,
+        payload: user
     }
 }
 
+export const clearState = () => {
+    return {
+        type: CLEAR_STATE
+    }
+}
 
-//REDUCER FUNC
 const reducer = (state = initialState, action) => {
-    switch (action.type) {
-        case UPDATE_USER:
-            const {username, id, profile_pic} = action.payload
-            return {
-                ...state, username, id, profile_pic
-            }
-        default: return state
+    switch(action.type){
+        case CLEAR_STATE:
+            console.log('it works!')
+            return {...state, username: '', profile_pic: ''}
+        case HANDLE_USER:
+            return {...state, username: action.payload.username, profile_pic: action.payload.profile_pic}
+        default:
+            return state
     }
 }
 

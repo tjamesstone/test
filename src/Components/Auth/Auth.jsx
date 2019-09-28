@@ -1,9 +1,11 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom'
 import axios from 'axios'
-import {updateUser} from '../../ducks/reducer'
+// import {updateUser} from '../../ducks/reducer'
 import {connect} from 'react-redux'
-import swal from 'sweetalert2'
+// import swal from 'sweetalert2'
+import {handleUser} from '../../ducks/reducer'
+
 
 class Auth extends Component{
 constructor(props){
@@ -22,33 +24,27 @@ this.setState({
 }
 
  register = async () => {
-    const { username, password } = this.state;
-    const res = await axios.post('/auth/register', { username, password });
-    // console.log(res.data)
-      if (res.data) {
-        this.props.history.push("/dashboard");
-        this.props.updateUser(res.data);
-      } else {
-          swal.fire("Couldn't register, try again with a different username")
-
-      }
-      
+    const {username, password} = this.state
+        const res = await axios.post('/auth/register', {username, password})
+        if (res.data.username){
+            this.props.history.push('/dashboard')
+            this.props.handleUser(res.data.id, res.data.username, res.data.profile_pic)
+        } else {
+            alert(`${res.data.message}`)
+        }
     }
   
 
 login = async () => {
-    const { username, password } = this.state;
-    const res = await axios.post('/auth/login', { username, password })
-      if (res.data) {
-        this.props.history.push("/dashboard")
-        // console.log(res.data)
-        this.props.updateUser(res.data.user)
-      } else {
-          swal.fire("Couldn't log in, try again")
-      }
-      
-    
+    const {username, password} = this.state
+    const res = await axios.post('/auth/login', {username, password})
+    if (res.data.username){
+        this.props.handleUser(res.data.username, res.data.profile_pic)
+        this.props.history.push('/dashboard')
+    } else {
+        alert(`${res.data.message}`)
     }
+}
   
 
 render(){
@@ -100,4 +96,4 @@ render(){
 
 }
 
-export default connect(null, {updateUser})(Auth)
+export default connect(null, {handleUser})(Auth)

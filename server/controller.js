@@ -1,87 +1,78 @@
 const bcrypt = require('bcryptjs')
 
 module.exports = {
-    register: async (req, res) => {
+    register: async (req, res, next) => {
         const db = req.app.get('db')
-        const { username, password } = req.body
+        const {username, password} = req.body
+        const user = await db.find_user([username])
+        if (user[0]) return res.status(200).send({message: 'Username already in use'})
 
-        const foundUser = await db.get_user_by_username([username])
-        // console.log(foundUser)
-        let user = foundUser[0]
-        if (user) {
-            return res.status(409).send(`Username: ${username} is already taken`)
-        }
         const salt = bcrypt.genSaltSync(10)
         const hash = bcrypt.hashSync(password, salt)
-        const profilePic = `http://robohash.org/${username}?set=set5`
-        let register =  await db.register_user([username, hash, profilePic])
-            .catch(err => {res.status(200).send({message: err.message}) })
-        const newUser = register[0]
-        // console.log(newUser)
-        req.session.user = newUser
-        // console.log(newUser)
-        res.status(200).send(newUser)
+
+        let profile_pic = `https://robohash.org/${username}?set=set5`
+        const newUser = await db.create_user([username, hash, profile_pic])
+
+        req.session.userid = newUser[0].id
+        
+        res.status(201).send(newUser[0])
     },
-    login: async (req, res) => {
+    login: async (req, res, next) => {
         const db = req.app.get('db')
-        const { username, password } = req.body
-
-        //check if user exists(and the hash)
-
-        let foundUser = await db.get_user_by_username([username])
-    
-        let user = foundUser[0]
-        // console.log(user)
-
-        if (!user) {
-            return res.status(401).send(`No account found with username: ${username}, please register before loggin in`)
-        }
-
-        let isUser = bcrypt.compareSync(password, user.password)
-        // console.log(isUser)
-        if (!isUser) {
-            return res.status(401).send({ message: "incorrect password" })
-        }
-        req.session.user = user
-        res.status(200).send({message: 'Logged in', user, loggedIn: true })
+        const {username, password} = req.body
+        const user = await db.find_user([username])
+        if (!user[0]) return res.status(200).send({message: 'Incorrect username'})
+        const result = bcrypt.compareSync(password, user[0].password)
+        if (!result) return res.status(200).send({message: 'password incorrect'})
+        req.session.userid = user[0].id
+        res.status(200).send(user[0])
     },
-    logout: (req, res) => {
+    logout: async (req, res, next) => {
         req.session.destroy()
-        res.status(200).send({message: 'Logged out', loggedIn: false})
+        res.sendStatus(200)
     },
-    getAllPosts: async (req, res) => {
-        const { userPosts, id, search } = req.query;
-        // console.log(userPosts, id, search)
-        const db = req.app.get("db");
-        let postsArr = [];
-        if (userPosts === "true" && search) {
-          postsArr = await db.get_all_posts({ search: `%${search}%`, id: "0" });
-        }
-        if (userPosts === "false" && !search) {
-          postsArr = await db.get_all_posts({ search: "%%", id: { id } });
-        }
-        if (userPosts === "false" && search) {
-          postsArr = await db.get_all_posts({ search: `%${search}%`, id: { id } });
-        }
-        if (userPosts === "true" && !search) {
-          postsArr = await db.get_all_posts({ search: "%%", id: "0" });
-        }
-        res.status(200).send(postsArr);
-      },
-      getPost: async (req, res) => {
+    getPosts: async (req, res, next) => {
+        /* The query will look like this: http://localhost:4000/api/posts/3?userposts=true&search=asdf */
+        /* The query will come here as an object {userposts: 'true', search: 'blahblahblah'} */
         const db = req.app.get('db')
-        const post = await db.get_post({ id: req.params.id })
-        res.status(200).send(post)
-      },
-      newPost: (req, res) => {
-        const { id } = req.params
-        const { title, imgURL, content } = req.body
-        const db = req.app.get('db')
-        db.new_post({ title, imgURL, content, id })
-          .then(result => {
+        // const {userid} = req.params
+        const {userid} = req.session
+        const {userposts, search} = req.query
+        const result = await db.get_posts()
+        if (userposts === 'true' && search !== ''){
+            const filteredResult = result.filter(el => el.title.includes(search))
+            res.status(200).send(filteredResult)
+        } else if (userposts === 'false' && search === '') {
+            const filteredResult = result.filter(el => el.user_id !== +userid)
+            res.status(200).send(filteredResult)
+        } else if (userposts === 'false' && search !== '') {
+            const filteredResult = result.filter(el => el.user_id !== +userid)
+            const filteredSearch = filteredResult.filter(el => el.title.includes(search))
+            res.status(200).send(filteredSearch)
+        } else if (userposts === 'true' && search === '') {
             res.status(200).send(result)
-          }
-          )
-      }
-
+        } else {
+            console.log('nothing hit')
+        }
+    },
+    getOnePost: async (req, res, next) => {
+        const db = req.app.get('db')
+        const {postid} = req.params
+        const result = await db.get_one_post(postid)
+        res.status(200).send(result)
+    },
+    addPost: async (req, res, next) => {
+        const db = req.app.get('db')
+        const {userid} = req.session
+        console.log(userid)
+        const {title, image_url, content} = req.body
+        await db.add_post([title, image_url, content, userid])
+        res.sendStatus(200)
+    },
+    findUser: async (req, res, next) => {
+        const db = req.app.get('db')
+        const {userid} = req.session
+        let result = await db.find_user_by_id(userid)
+        res.status(200).send(result)
+    }
 }

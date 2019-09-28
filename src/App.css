@@ -14,6 +14,23 @@
   display: flex;
   align-items: center;
 }
+.banner{
+  background: pink;
+  display: flex;
+  justify-content: space-around;
+  align-items: center; 
+  height: 20%;
+}
+.thecontent{
+  background: blue;
+  display: flex;
+  justify-content: space-around;
+  height: 80%;
+}
+.fullbox{
+  height: 400px;
+  width: 600px; 
+}
 .form_input_box {
   width: 90%;
   height: 50px;
