@@ -37,20 +37,30 @@ render(){
     return(
         <div className="post">
             <div className="postallinfo">
-            <h1>{this.state.title}</h1>
+            {/* <h1>{this.state.title}</h1>
                 <img src={this.state.img} alt="" />
-                <p>{this.state.content}</p>
+                <p>{this.state.content}</p> */}
             </div>
             <div className="content_box fullbox">
                 
                 <div className="banner">
-                <h2>{this.state.title}title</h2>
-                by: <h5>{this.state.username}username</h5>
-                <img src={this.state.profile_pic} alt="profile"/>
+                <h2
+                className='finaltitle'
+                >{this.state.title}</h2>
+                by: <h5
+                className='finalusername'
+                >{this.state.username}</h5>
+                <img 
+                className='finalfirst'
+                src={this.state.profile_pic} alt="profile"/>
                 </div>
                 <div className="thecontent">
-                    <img src={this.state.img} alt="article"/>
-                    <p>{this.state.content}test</p>
+                    <img 
+                    className='finalimg'
+                    src={this.state.img} alt="article"/>
+                    <p
+                    className='finalp'
+                    >{this.state.content}</p>
                 </div>
                 
                 

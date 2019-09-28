@@ -64,9 +64,9 @@ module.exports = {
     addPost: async (req, res, next) => {
         const db = req.app.get('db')
         const {userid} = req.session
-        console.log(userid)
-        const {title, image_url, content} = req.body
-        await db.add_post([title, image_url, content, userid])
+        // console.log(userid)
+        const {title, img, content} = req.body
+        await db.add_post([title, img, content, userid])
         res.sendStatus(200)
     },
     findUser: async (req, res, next) => {

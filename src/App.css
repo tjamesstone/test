@@ -10,19 +10,38 @@
   display: flex;
   justify-content: center;
 }
+.finalimage{
+  width: 300px;
+  box-shadow: 0 1px 3px  rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.2);
+  margin: 0 15px 0 0;
+}
+.finalfirst{
+  width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(0,0,0,.4);
+}
+.finaltitle{
+  
+    font-size: 40px;
+    font-weight: 700;
+    color: #ff9770;
+    margin: 0 0 10px;
+
+}
 .userPosts{
   display: flex;
   align-items: center;
 }
 .banner{
-  background: pink;
+  
   display: flex;
   justify-content: space-around;
   align-items: center; 
   height: 20%;
 }
 .thecontent{
-  background: blue;
+ 
   display: flex;
   justify-content: space-around;
   height: 80%;

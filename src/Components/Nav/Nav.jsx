@@ -15,13 +15,14 @@ class Nav extends React.Component{
         }
     }
 
-    componentDidMount = () => {
-        this.getUserById()
+    componentDidMount =  () => {
+         this.getUserById()
     }
 
     getUserById = async () => {
         
         let res = await axios.get('/api/auth/me')
+        // console.log(res.data)
         this.props.handleUser(res.data[0].username, res.data[0].profile_pic)
     }
 

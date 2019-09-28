@@ -19,9 +19,8 @@ class Form extends Component{
     }
 
     addNew = async() => {
-        const {id} = this.props
-        const {title, img, content} = this.state
-        await axios.post(`/api/post/${id}`, {title, img, content})
+        let {title, img, content} = this.state
+        await axios.post(`/api/post/new/`, {title, img, content})
         this.props.history.push('/dashboard')
     }
 

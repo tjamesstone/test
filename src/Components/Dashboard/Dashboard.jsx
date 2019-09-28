@@ -72,7 +72,7 @@ render(){
             </div>
             <div className="content_box dash_posts_container">
                 {posts.map(post => (
-                    <Link key={post.id} to={`/post/${post.id}`}>
+                    <Link key={post.post_id} to={`/post/${post.post_id}`}>
                             <div className="content_box minipost">
                                 <h3>{post.title}</h3>
                                 <div className="leftcontainer">
