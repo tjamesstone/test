@@ -27,6 +27,8 @@ class Dashboard extends Component{
         this.setState(prevState => ({
             userPosts: !prevState.userPosts 
         }))
+        // console.log('test')
+        this.getPosts()
     }
     
     getPosts = async () => {
@@ -34,6 +36,7 @@ class Dashboard extends Component{
         this.setState({
             posts: res.data
         })
+        // console.log('test')
     }
 
     resetSearch(){

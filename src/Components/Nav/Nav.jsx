@@ -22,8 +22,9 @@ class Nav extends React.Component{
     getUserById = async () => {
         
         let res = await axios.get('/api/auth/me')
+        await this.props.handleUser(res.data[0].username, res.data[0].profile_pic)
         // console.log(res.data)
-        this.props.handleUser(res.data[0].username, res.data[0].profile_pic)
+        
     }
 
     userLogout = async () => {

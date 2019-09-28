@@ -27,8 +27,10 @@ this.setState({
     const {username, password} = this.state
         const res = await axios.post('/auth/register', {username, password})
         if (res.data.username){
-            this.props.history.push('/dashboard')
+
             this.props.handleUser(res.data.id, res.data.username, res.data.profile_pic)
+            
+            this.props.history.push('/dashboard')
         } else {
             alert(`${res.data.message}`)
         }
@@ -40,6 +42,7 @@ login = async () => {
     const res = await axios.post('/auth/login', {username, password})
     if (res.data.username){
         this.props.handleUser(res.data.username, res.data.profile_pic)
+        
         this.props.history.push('/dashboard')
     } else {
         alert(`${res.data.message}`)

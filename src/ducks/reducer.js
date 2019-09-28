@@ -23,7 +23,7 @@ export const clearState = () => {
 const reducer = (state = initialState, action) => {
     switch(action.type){
         case CLEAR_STATE:
-            console.log('it works!')
+            console.log()
             return {...state, username: '', profile_pic: ''}
         case HANDLE_USER:
             return {...state, username: action.payload.username, profile_pic: action.payload.profile_pic}
